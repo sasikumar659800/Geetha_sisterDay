@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Sisters Day</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 600px;
+      width: 90%;
+      background: #ddf1f1;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .wish {
+      display: none;
+      font-size: 1.2em;
+      margin: 20px 0;
+    }
+    .wish.active {
+      display: block;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pagination button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #ff7e5f;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .pagination button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    audio {
+      margin-top: 20px;
+      width: 100%;
+    }
+    .wish img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 480px) {
+      .wish {
+        font-size: 1em;
+      }
+      .pagination button {
+        font-size: 0.9em;
+        padding: 8px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>Happy Sister's Day</h3>
+    <h5>My Dear Sister Geetha</h5>
+    <div id="wishes">
+      <div class="wish active">
+        It has been 1.6 wonderful years since my sister came into my life. I joyfully welcome this Sister's Day.
+        <img src="./geetha_1.jpg" alt="Birthday Celebration" />
+      </div>
+      <div class="wish">
+        Regardless of what anyone thinks, or even what God may think, nothing can break the bond of love between us.
+        <img src="./geetha_2.jpg" alt="Birthday Cake" />
+      </div>
+      <div class="wish">
+        Through every high and low, I’ve had one constant — your love, my sister. And that means everything.
+        <img src="./geetha_3.jpg" alt="Birthday Cake" />
+      </div>
+      <div class="wish">
+        We may not say it often, but the love we share runs deeper than words. Happy Sister’s Day.
+        <img src="./geetha_4.jpg" alt="Birthday Cake" />
+      </div>
+      <div class="wish">
+        You are not just my sister, you're my safe place, my strength.
+        <img src="./geetha_5.jpg" alt="Birthday Cake" />
+      </div>
+    </div>
+    <div class="pagination">
+      <button id="prev">Prev</button>
+      <button id="next">Next</button>
+    </div>
+    <audio id="birthdayAudio" controls autoplay muted loop>
+      <source src="./sisterday-song.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <button onclick="unmuteAudio()">🔊 Play Song</button>
+
+  </div>
+
+  <script>
+    const wishes = document.querySelectorAll('.wish');
+    let currentIndex = 0;
+    let carouselInterval;
+
+    function showWish(index) {
+      wishes.forEach((wish, i) => {
+        wish.classList.toggle('active', i === index);
+      });
+      document.getElementById('prev').disabled = index === 0;
+      document.getElementById('next').disabled = index === wishes.length - 1;
+    }
+
+    function startCarousel() {
+      carouselInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % wishes.length;
+        showWish(currentIndex);
+      }, 7000); // Change every 4 seconds
+    }
+
+    function stopCarousel() {
+      clearInterval(carouselInterval);
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showWish(currentIndex);
+        stopCarousel();
+      }
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+      if (currentIndex < wishes.length - 1) {
+        currentIndex++;
+        showWish(currentIndex);
+        stopCarousel();
+      }
+    });
+
+    // Auto-play audio and start carousel when page loads
+    window.addEventListener('load', () => {
+      const audio = document.getElementById('birthdayAudio');
+      audio.play().catch(error => {
+        console.log('Autoplay blocked:', error);
+      });
+      startCarousel();
+    });
+
+    function unmuteAudio() {
+  const audio = document.getElementById('birthdayAudio');
+  audio.muted = false;
+  audio.play();
+}
+
+  </script>
+
+  <footer>
+    <p>&copy; 2025 Made with 💕 for my sister.</p>
+  </footer>
+  
+</body>
+</html>
